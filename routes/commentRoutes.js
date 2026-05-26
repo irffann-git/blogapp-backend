@@ -30,4 +30,49 @@ router.post("/:blogId", protect, async (req, res) => {
   }
 });
 
+// LIKE / UNLIKE COMMENT
+router.put("/:commentId/like", protect, async (req, res) => {
+  try {
+
+    const comment = await Comment.findById(req.params.commentId);
+
+    if (!comment) {
+      return res.status(404).json({
+        message: "Comment not found",
+      });
+    }
+
+    const alreadyLiked = comment.likes.includes(req.user._id);
+
+    if (alreadyLiked) {
+
+      comment.likes = comment.likes.filter(
+        (id) => id.toString() !== req.user._id.toString()
+      );
+
+    } else {
+
+      comment.likes.push(req.user._id);
+
+    }
+
+    await comment.save();
+
+    res.status(200).json({
+      message: alreadyLiked
+        ? "Comment unliked"
+        : "Comment liked",
+      likes: comment.likes.length,
+      liked: !alreadyLiked,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+});
+
 module.exports = router;
