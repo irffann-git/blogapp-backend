@@ -15,8 +15,8 @@ const router = express.Router();
 
 router.get("/",              getBlogs);
 router.get("/myblogs",       protect, getMyBlogs);
-router.get("/:id",           getSingleBlog);
 router.put("/:id/view",      addView);
+router.get("/:id",           getSingleBlog);
 router.post("/",             protect, upload.single("image"), createBlog);
 router.put("/:id",           protect, upload.single("image"), updateBlog); // added upload middleware
 router.delete("/:id",        protect, deleteBlog);
