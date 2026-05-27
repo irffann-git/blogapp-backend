@@ -2,9 +2,6 @@ const Blog = require("../models/Blog");
 
 // CREATE BLOG
 const createBlog = async (req, res) => {
-  console.log(req.body);
-
-  console.log(req.file);
   try {
     const { title, description, category } = req.body;
     const image = req.file ? `/uploads/${req.file.filename}` : "";
