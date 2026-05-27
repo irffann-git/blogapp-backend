@@ -18,17 +18,19 @@ const blogSchema = new mongoose.Schema(
     },
 
     image: {
-      type: String,
-      default: "",
+      data: String,
+      contentType: String,
     },
-    views: {
-  type: Number,
-  default: 0,
-},
 
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
+    },
+
+    views: {
+      type: Number,
+      default: 0,
     },
   },
   {

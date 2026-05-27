@@ -46,10 +46,10 @@ app.use(express.json());
    STATIC UPLOADS
 ========================= */
 
-app.use(
-  "/uploads",
-  express.static(uploadPath)
-);
+// app.use(
+//   "/uploads",
+//   express.static(uploadPath)
+// );
 
 /* =========================
    ROUTES
