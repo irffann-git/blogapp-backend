@@ -4,7 +4,7 @@ const Blog = require("../models/Blog");
 const createBlog = async (req, res) => {
   try {
     const { title, description, category } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : "";
+    const image = req.file ? req.file.path : "";
 
     const blog = await Blog.create({
       title,
@@ -92,7 +92,7 @@ const updateBlog = async (req, res) => {
     if (category)    updates.category    = category;
 
     // update image only if a new file was uploaded
-    if (req.file) updates.image = `/uploads/${req.file.filename}`;
+    if (req.file) updates.image = req.file.path;
 
     const updatedBlog = await Blog.findByIdAndUpdate(
       req.params.id,
