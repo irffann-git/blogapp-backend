@@ -96,38 +96,6 @@ const getProfile = async (req, res) => {
 
 };
 
-// Add this at the end of your authController.js
-const updateProfile = async (req, res) => {
-  try {
-    const { name, email } = req.body;
-    const user = await User.findById(req.user._id);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Check if email is already taken by another user
-    if (email && email !== user.email) {
-      const emailExists = await User.findOne({ email });
-      if (emailExists) {
-        return res.status(400).json({ message: "Email already in use" });
-      }
-    }
-
-    user.name = name || user.name;
-    user.email = email || user.email;
-    await user.save();
-
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      createdAt: user.createdAt,
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
 
 
