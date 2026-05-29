@@ -97,6 +97,30 @@ const getProfile = async (req, res) => {
 };
 
 
+// Add this function to your existing authController.js
+const updateProfile = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+
+    // Check if email is already taken by another user
+    const existingUser = await User.findOne({ email, _id: { $ne: req.user._id } });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id,
+      { name, email },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 
 
 
